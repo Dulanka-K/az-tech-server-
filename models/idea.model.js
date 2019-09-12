@@ -5,6 +5,10 @@ var ideaSchema = new mongoose.Schema({
         type:String,
         required:'Content can\'t be empty'     
     },
+    date:{
+        type:Date,
+        default:Date.now
+    },
     upvotes:{
         type:Number
     },
