@@ -38,3 +38,20 @@ exports.addComment=function(req,res,next){
         });
 
 };
+
+module.exports.viewComment=function(req,res,next){
+    const ideaId=req.params.iId;
+
+    Idea.findById(ideaId)
+        .populate('comment')
+        .select('comment')
+        .then(result=>{
+            if(result){
+                res.json(result);
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
