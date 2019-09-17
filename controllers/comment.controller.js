@@ -55,3 +55,19 @@ module.exports.viewComment=function(req,res,next){
             console.log(error);
         });
 };
+
+module.exports.removeComment=function(req,res,next){
+    const commentId=req.params.cId;
+
+    Comment.deleteOne({_id:commentId})
+        .then(result=>{
+            if(result){
+                res.json(result);
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+

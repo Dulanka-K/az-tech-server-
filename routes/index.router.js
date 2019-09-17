@@ -53,8 +53,9 @@ router.put('/editidea/:iId',idea.editIdea);//edit content
 router.put('/updateidea/:iId',idea.updateIdea);//upvote or downvote
 
 //comment routes
-router.post('/addComment/:iId&:uId',comment.addComment);
+router.post('/addComment/:iId/:uId',comment.addComment);
 router.get('/viewComment/:iId',comment.viewComment);
+router.delete('/deletecomment/:cId',comment.removeComment);
 
 //send reset password email to user
 router.get('/forgotPassword/:email', (req, res, next) => {
