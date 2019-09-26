@@ -5,6 +5,14 @@ var ideaSchema = new mongoose.Schema({
         type:String,
         required:'Content can\'t be empty'     
     },
+    category:{
+        type:String,
+        required:true
+    },
+    type:{
+        type:String,
+        required:true
+    },
     date:{
         type:Date,
         default:Date.now

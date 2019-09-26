@@ -11,9 +11,8 @@ module.exports.addIdea=function(req,res,next){
     const userId=req.params.uId;
     idea._id= new mongoose.Types.ObjectId();
     idea.content=req.body.content;
-    // idea.upvotes=req.body.upvotes;
-    // idea.downvotes=req.body.downvotes;
-    // idea.comment=req.body.comment;
+    idea.type=req.body.type;
+    idea.category=req.body.category;
     
     idea.save(function(err,doc){
         if(!err){
@@ -43,9 +42,25 @@ module.exports.addIdea=function(req,res,next){
 module.exports.viewIdea=function(req,res,next){
     const userId=req.params.uId;
 
-    User.findById(userId)
+    User.findById(userId) 
         .populate('idea')
         .select('idea')
+        .then(result=>{
+            if(result){
+                res.json(result);
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+
+//view idea based on category
+module.exports.categoryView=function(req,res,next){
+    const category=req.params.category;
+
+    Idea.find({category:category})
         .then(result=>{
             if(result){
                 res.json(result);

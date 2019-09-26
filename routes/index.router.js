@@ -51,6 +51,7 @@ router.get('/viewidea/:uId',idea.viewIdea);
 router.delete('/deleteidea/:iId',idea.removeIdea);
 router.put('/editidea/:iId',idea.editIdea);//edit content
 router.put('/updateidea/:iId',idea.updateIdea);//upvote or downvote
+router.get('/categoryview/:category',idea.categoryView);//view ideas under categories
 
 //comment routes
 router.post('/addComment/:iId/:uId',comment.addComment);
