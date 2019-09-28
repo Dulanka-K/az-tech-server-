@@ -15,8 +15,9 @@ module.exports.register=function(req,res,next){
     
 
     user.save(function(err,doc){
-        if(!err)
-            res.send(doc);
+        if(!err){
+            res.json({success:true, "token": user.generateJwt()});
+        }
         else{
             if(err.code == 11000)
             res.status(422).send(['Duplicate email found']);
