@@ -16,24 +16,26 @@ const emailController = require('../controllers/email.controller');
 //user routes
 router.post('/register',ctrlUser.register);
 router.post('/authenticate',ctrlUser.authenticate);
-router.get('/userProfile',jwtHelper.verifyJwtToken,ctrlUser.userProfile);
+router.get('/userProfile/:uId',ctrlUser.userProfile);
 router.put('/editProfile/:uId',ctrlUser.editProfile);
 
-router.post('/userImageUpload/:userId',image.userImageUpload.single('image'),(req, res, next)=>{
+router.post('/userImageUpload/:userId', image.userImageUpload.single('image'),(req, res, next)=>{
     const userId = req.params.userId;
+    
     User
-        .find({ _id: userId })
+        .find({_id:userId})
         .exec()
         .then(user => {
             cloudinary.uploader.upload(req.file.path, function(result) {
                 imageSecureURL = result.secure_url;
-                console.log(imageSecureURL)
+                console.log(imageSecureURL);
                 user[0].imageURL = imageSecureURL;
                 user[0]
                     .save()
                     .then(result => {
                         res.status(200).json({
-                            state: true
+                            state: true,
+                            imageURL: imageSecureURL
                         }) 
                     })
             });
@@ -127,3 +129,6 @@ router.get('/newPassword/:email', (req, res, next) => {
 })
 
 module.exports = router;
+
+//req.file.path
+//image.userImageUpload.single('image'),

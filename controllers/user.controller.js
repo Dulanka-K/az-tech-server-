@@ -5,13 +5,16 @@ const _ = require('lodash');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
-module.exports.register=function(req,res,next){
+module.exports.register=async function(req,res,next){
     var user = new User();
+    const salt = await bcrypt.genSalt(10);
     user.firstName=req.body.firstName;
     user.lastName=req.body.lastName;
     user.email=req.body.email;
-    user.password=req.body.password;
-    user.userRole=req.body.userRole;
+    user.password =await bcrypt.hash(req.body.password,salt);
+    user.role=req.body.role;
+    
+    
     
 
     user.save(function(err,doc){
@@ -44,15 +47,34 @@ module.exports.authenticate = (req, res, next) => {
     })(req,res);
 }
 
-module.exports.userProfile = (req, res, next) =>{
-    User.findOne({_id: req._id},
-    (err, user)=>{
-        if(!user)
-        return res.status(404).json({ status:false , message:'User record not found'});
-        else
-        return res.status(200).json({ status:false , user: _.pick(user, ['fullName','email']) });
-    });
-}
+
+module.exports.userProfile=function(req,res,next){
+    const userId=req.params.uId;
+
+    User.findById(userId)
+        .then(result=>{
+            if(result){
+                
+                res.json(result);
+                
+                
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+
+// module.exports.userProfile = (req, res, next) =>{
+//     User.findOne({_id: req._id},
+//     (err, user)=>{
+//         if(!user)
+//         return res.status(404).json({ status:false , message:'User record not found'});
+//         else
+//         return res.status(200).json({ status:false , user: _.pick(user, ['fullName','email']) });
+//     });
+// }
 
 module.exports.editProfile=function(req,res,next){
     const userId=req.params.uId;
@@ -67,7 +89,7 @@ module.exports.editProfile=function(req,res,next){
         })
         .then(result=>{
             if(result){
-                res.json(result);
+                res.send({success:true});
             }
         })
         .catch(error => {

@@ -21,7 +21,7 @@ var userSchema = new mongoose.Schema({
         required:true,
         minlength:[4,'Password must be at least 4 characters long!']
     },
-    userRole:{
+    role:{
         type:String,
         required:true
     },
@@ -48,11 +48,11 @@ userSchema.path('email').validate((val)=>{
 },'Invalid e-mail');
 
 
-userSchema.pre('save',async function(next){
-    const salt = await bcrypt.genSalt(10);
-    this.password =  await bcrypt.hash(this.password,salt);
-    next();
-});
+// userSchema.pre('save',async function(next){
+//     const salt = await bcrypt.genSalt(10);
+//     this.password =  await bcrypt.hash(this.password,salt);
+//     next();
+// });
 
 //methods
 userSchema.methods.verifyPassword = function(password){
@@ -60,7 +60,7 @@ userSchema.methods.verifyPassword = function(password){
 }
 
 userSchema.methods.generateJwt = function(){
-    return jwt.sign({ _id: this._id, userRole:this.userRole },
+    return jwt.sign({ _id: this._id, role:this.role },
     process.env.JWT_SECRET,{
         expiresIn: process.env.JWT_EXP
     });
