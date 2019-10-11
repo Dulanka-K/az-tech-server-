@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 var ideaSchema = new mongoose.Schema({
+    title:{
+        type:String,
+        required:true
+    },
     content:{
         type:String,
         required:'Content can\'t be empty'     

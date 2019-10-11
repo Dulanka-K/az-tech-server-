@@ -10,6 +10,7 @@ module.exports.addIdea=function(req,res,next){
     
     const userId=req.params.uId;
     idea._id= new mongoose.Types.ObjectId();
+    idea.title=req.body.title;
     idea.content=req.body.content;
     idea.type=req.body.type;
     idea.category=req.body.category;
@@ -17,7 +18,7 @@ module.exports.addIdea=function(req,res,next){
     idea.save(function(err,doc){
         if(!err){
             
-            res.send(doc);
+            res.send({success:true});
         }
         else{
             return next(err);
