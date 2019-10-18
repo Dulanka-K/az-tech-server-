@@ -22,9 +22,11 @@ var ideaSchema = new mongoose.Schema({
         default:Date.now
     },
     upvotes:{
+        default:0,
         type:Number
     },
     downvotes:{
+        default:0,
         type:Number
     },
     comment:[{

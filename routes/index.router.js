@@ -50,6 +50,7 @@ router.post('/userImageUpload/:userId', image.userImageUpload.single('image'),(r
 //idea routes
 router.post('/addidea/:uId',idea.addIdea);
 router.get('/viewidea/:uId',idea.viewIdea);
+router.get('/viewideabyid/:iId',idea.viewIdeaById);//view idea by iId
 router.delete('/deleteidea/:iId',idea.removeIdea);
 router.put('/editidea/:iId',idea.editIdea);//edit content
 router.put('/updateidea/:iId',idea.updateIdea);//upvote or downvote

@@ -39,7 +39,7 @@ module.exports.addIdea=function(req,res,next){
 
 };
 
-//get idea
+//get idea using uId
 module.exports.viewIdea=function(req,res,next){
     const userId=req.params.uId;
 
@@ -49,6 +49,25 @@ module.exports.viewIdea=function(req,res,next){
         .then(result=>{
             if(result){
                 res.json(result);
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+
+//get idea using iId
+module.exports.viewIdeaById=function(req,res,next){
+    const ideaId=req.params.iId;
+
+    Idea.findById(ideaId)
+        .then(result=>{
+            if(result){
+                
+                res.json(result);
+                
+                
             }
         })
         .catch(error => {
@@ -80,7 +99,7 @@ module.exports.removeIdea=function(req,res,next){
     Idea.deleteOne({_id:ideaId})
         .then(result=>{
             if(result){
-                res.json(result);
+                res.send({success:true});
             }
         })
         .catch(error => {
@@ -100,7 +119,7 @@ module.exports.editIdea=function(req,res,next){
         })
         .then(result=>{
             if(result){
-                res.json(result);
+                res.send({success:true});
             }
         })
         .catch(error => {
