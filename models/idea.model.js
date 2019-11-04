@@ -29,6 +29,14 @@ var ideaSchema = new mongoose.Schema({
         default:0,
         type:Number
     },
+    username:{
+        type:String,
+        required:true
+    },
+    user:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     comment:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment'     

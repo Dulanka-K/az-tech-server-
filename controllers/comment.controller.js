@@ -14,11 +14,12 @@ exports.addComment=function(req,res,next){
     comment.user=req.params.uId;
     comment._id= new mongoose.Types.ObjectId();
     comment.content=req.body.content;
+    comment.username=req.body.username;
 
     comment.save(function(err,doc){
         if(!err){
             
-            res.send(doc);
+            res.send({success:true});
         }
         else{
             return next(err);

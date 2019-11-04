@@ -53,7 +53,8 @@ router.get('/viewidea/:uId',idea.viewIdea);
 router.get('/viewideabyid/:iId',idea.viewIdeaById);//view idea by iId
 router.delete('/deleteidea/:iId',idea.removeIdea);
 router.put('/editidea/:iId',idea.editIdea);//edit content
-router.put('/updateidea/:iId',idea.updateIdea);//upvote or downvote
+router.put('/updateideaup/:iId',idea.updateIdeaup);//upvote
+router.put('/updateideadown/:iId',idea.updateIdeadown);//downvote
 router.get('/categoryview/:category',idea.categoryView);//view ideas under categories
 
 //comment routes

@@ -14,6 +14,8 @@ module.exports.addIdea=function(req,res,next){
     idea.content=req.body.content;
     idea.type=req.body.type;
     idea.category=req.body.category;
+    idea.username=req.body.username;
+    idea.user.push(userId);
     
     idea.save(function(err,doc){
         if(!err){
@@ -128,8 +130,8 @@ module.exports.editIdea=function(req,res,next){
         });
 };
 
-//update idea
-module.exports.updateIdea=function(req,res,next){
+//upvote idea
+module.exports.updateIdeaup=function(req,res,next){
     const ideaId=req.params.iId;
     // const content=req.body.content;
     
@@ -140,7 +142,35 @@ module.exports.updateIdea=function(req,res,next){
 
     Idea.update({ _id:ideaId }, {
         $inc:{
-            upvotes:1,
+            upvotes:1
+             }
+        // $push:{
+        //         comment:comment
+        //     }
+        })
+        .then(result=>{
+            if(result){
+                res.send({success:true});
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+
+//downvote idea
+module.exports.updateIdeadown=function(req,res,next){
+    const ideaId=req.params.iId;
+    // const content=req.body.content;
+    
+    // const comment={
+    //     _id: new mongoose.Types.ObjectId(),
+    //     content:content
+    // };
+
+    Idea.update({ _id:ideaId }, {
+        $inc:{
             downvotes:1
              }
         // $push:{
@@ -149,7 +179,7 @@ module.exports.updateIdea=function(req,res,next){
         })
         .then(result=>{
             if(result){
-                res.json(result);
+                res.send({success:true});
             }
         })
         .catch(error => {
