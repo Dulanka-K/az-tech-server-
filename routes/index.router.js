@@ -11,6 +11,7 @@ const idea = require('../controllers/idea.controller.js');
 const comment = require('../controllers/comment.controller.js');
 const image = require('../controllers/upload.controller.js');
 const emailController = require('../controllers/email.controller');
+const requests = require('../controllers/request.controller.js');
 
 
 //user routes
@@ -61,6 +62,11 @@ router.get('/categoryview/:category',idea.categoryView);//view ideas under categ
 router.post('/addComment/:iId/:uId',comment.addComment);
 router.get('/viewComment/:iId',comment.viewComment);
 router.delete('/deletecomment/:cId',comment.removeComment);
+
+//request routes
+router.post('/sendRequest/:fId/:tId/:iId',requests.addRequest);//send request
+router.get('/viewRequest/:uId',requests.requestView);//view requests
+router.put('/status/:uId',requests.status);//accept or reject
 
 //send reset password email to user
 router.get('/forgotPassword/:email', (req, res, next) => {
