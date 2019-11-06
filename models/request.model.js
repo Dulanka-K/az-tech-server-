@@ -17,6 +17,14 @@ var requestSchema = new mongoose.Schema({
         type:String,
         default:"pending",
         required:true
+    },
+    username:{
+        type:String,
+        required:true
+    },
+    ideaname:{
+        type:String,
+        required:true
     }
 });
 

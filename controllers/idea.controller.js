@@ -188,6 +188,42 @@ module.exports.updateIdeadown=function(req,res,next){
         });
 };
 
+//boost idea
+module.exports.boostIdea=function(req,res,next){
+    const ideaId=req.params.iId;
+
+    Idea.updateOne({ _id:ideaId }, {
+        $set:{
+            boostStatus:true
+            }
+        })
+        .then(result=>{
+            if(result){
+                res.send({success:true});
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+
+//get boosted ideas
+module.exports.boostedIdeas=function(req,res,next){
+    const status=req.params.status;
+
+    Idea.find({boostStatus:status})
+        .then(result=>{
+            if(result){
+                res.json(result);
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+
 // exports.postIdea = (req, res, next) => {
 //     const userId = req.body.id;
 //     const content = req.body.content;

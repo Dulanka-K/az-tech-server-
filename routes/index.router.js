@@ -66,7 +66,14 @@ router.delete('/deletecomment/:cId',comment.removeComment);
 //request routes
 router.post('/sendRequest/:fId/:tId/:iId',requests.addRequest);//send request
 router.get('/viewRequest/:uId',requests.requestView);//view requests
-router.put('/status/:uId',requests.status);//accept or reject
+router.put('/status/:uId/:rId',requests.status);//accept or reject
+router.get('/investedideas/:uId',requests.investedIdeas);//view ideas invested
+router.get('/requeststatus/:uId/:iId',requests.requeststatus);
+
+//boost
+router.put('/boost/:iId',idea.boostIdea);
+router.get('/boostedIdeas/:status',idea.boostedIdeas);
+
 
 //send reset password email to user
 router.get('/forgotPassword/:email', (req, res, next) => {

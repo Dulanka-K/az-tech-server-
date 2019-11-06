@@ -33,6 +33,11 @@ var ideaSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    boostStatus:{
+        type:Boolean,
+        default:false,
+        required:true
+    },
     user:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

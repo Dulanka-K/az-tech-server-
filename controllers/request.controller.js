@@ -8,6 +8,8 @@ module.exports.addRequest=function(req,res,next){
     r.from=req.params.fId;
     r.to=req.params.tId;
     r.idea=req.params.iId;
+    r.username=req.body.username;
+    r.ideaname=req.body.ideaname;
 
 
     r.save(function(err,doc){
@@ -41,8 +43,9 @@ module.exports.requestView=function(req,res,next){
 //set status
 module.exports.status=function(req,res,next){
     const userId=req.params.uId;
+    const requestId=req.params.rId;
 
-    Request.update({ to:userId }, {
+    Request.updateOne({ to:userId, _id:requestId }, {
         $set:{
             status:req.body.status
             }
@@ -57,3 +60,41 @@ module.exports.status=function(req,res,next){
             console.log(error);
         });
 };
+
+//invested ideas of investor
+module.exports.investedIdeas=function(req,res,next){
+    const userId=req.params.uId;
+    //const status=req.body.status;
+
+    Request.find({ from:userId, status:'accepted' })
+        .populate('idea')
+        .select('idea')
+        .then(result=>{
+            if(result){
+                res.json(result);
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+
+//check requested or not
+module.exports.requeststatus=function(req,res,next){
+    const userId=req.params.uId;
+    const ideaId=req.params.iId;
+
+    Request.find({from:userId, idea:ideaId})
+        .then(result=>{
+            if(result){
+                res.send(result);
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+
+
