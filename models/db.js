@@ -4,6 +4,7 @@ require('./user.model.js');
 require('./idea.model.js');
 require('./comment.model.js');
 require('./request.model.js');
+require('./chat.model.js');
 
 mongoose.connect(process.env.MONGODB_URI,{ useNewUrlParser: true }, (err) => {
     if(!err){
