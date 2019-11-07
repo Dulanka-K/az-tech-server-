@@ -12,6 +12,10 @@ var chatSchema = new mongoose.Schema({
     message:{
         type:String,
         required:true
+    },
+    isViewed:{
+        type:Boolean,
+        required:true
     }
     
 });

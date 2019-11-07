@@ -7,7 +7,7 @@ const cors = require('cors');
 const passport = require('passport');
 
 const rtsIndex = require ('./routes/index.router.js');
-
+const chat = require('./routes/chat')
 var app = express();
 
 //middleware
@@ -15,7 +15,7 @@ app.use(bodyparser.json());
 app.use(cors());
 app.use(passport.initialize());
 app.use('/api',rtsIndex);
-
+app.use('/api',chat);
 app.use((err,req,res,next)=>{
     if(err.name == 'ValidationError'){
         var valErrors = [];
