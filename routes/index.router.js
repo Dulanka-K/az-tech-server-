@@ -12,6 +12,8 @@ const comment = require('../controllers/comment.controller.js');
 const image = require('../controllers/upload.controller.js');
 const emailController = require('../controllers/email.controller');
 const requests = require('../controllers/request.controller.js');
+const chat = require('../controllers/chat.controller.js');
+
 
 
 //user routes
@@ -73,6 +75,9 @@ router.get('/requeststatus/:uId/:iId',requests.requeststatus);
 //boost
 router.put('/boost/:iId',idea.boostIdea);
 router.get('/boostedIdeas/:status',idea.boostedIdeas);
+
+router.post('/loadHistory',chat.loadHistory);
+router.post('/saveMsg',chat.saveMsg);
 
 
 //send reset password email to user
