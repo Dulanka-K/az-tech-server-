@@ -36,3 +36,18 @@ module.exports.saveMsg=function(req,res){
     });
 };
 
+//groupby
+module.exports.groupByReceiver=function(req,res){
+    Chat.aggregate([{ $group:{_id:"$receiveId"}}])
+        .then(
+            result=>{
+                const r = res.json(result);
+                
+            }
+        )
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+

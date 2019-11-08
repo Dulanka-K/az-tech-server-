@@ -76,8 +76,10 @@ router.get('/requeststatus/:uId/:iId',requests.requeststatus);
 router.put('/boost/:iId',idea.boostIdea);
 router.get('/boostedIdeas/:status',idea.boostedIdeas);
 
+//chat route
 router.post('/loadHistory',chat.loadHistory);
 router.post('/saveMsg',chat.saveMsg);
+router.get('/groupById',chat.groupByReceiver);
 
 
 //send reset password email to user
