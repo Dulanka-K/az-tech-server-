@@ -51,3 +51,38 @@ module.exports.groupByReceiver=function(req,res){
         });
 };
 
+//get unread messages
+module.exports.setNotification=function(req,res,next){
+    const receiver=req.params.receiveId;
+
+    Chat.find({sendId:receiver, isViewed:false})
+        .then(result=>{
+            if(result){
+                res.send(result);
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+
+//set a message as viewed
+module.exports.setIsViewed=function(req,res,next){
+    const receiver=req.params.receiveId;
+
+    Chat.updateMany({ sendId:receiver }, {
+        $set:{
+            isViewed:true
+            }
+        })
+        .then(result=>{
+            if(result){
+                res.send({success:true});
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};

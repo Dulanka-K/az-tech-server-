@@ -80,6 +80,8 @@ router.get('/boostedIdeas/:status',idea.boostedIdeas);
 router.post('/loadHistory',chat.loadHistory);
 router.post('/saveMsg',chat.saveMsg);
 router.get('/groupById',chat.groupByReceiver);
+router.get('/unreadMessages/:receiveId',chat.setNotification);
+router.post('/setMsgStatus/:receiveId',chat.setIsViewed);
 
 
 //send reset password email to user
