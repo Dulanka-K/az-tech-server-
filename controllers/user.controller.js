@@ -84,7 +84,9 @@ module.exports.editProfile=function(req,res,next){
             firstName:req.body.firstName,
             lastName:req.body.lastName,
             organisation:req.body.organisation,
-            country:req.body.country
+            country:req.body.country,
+            field:req.body.field,
+            about:req.body.about
             }
         })
         .then(result=>{

@@ -31,6 +31,12 @@ var userSchema = new mongoose.Schema({
     country:{
         type:String
     },
+    field:{
+        type:String
+    },
+    about:{
+        type:String
+    },
     imageURL:{
         type:String
     },
