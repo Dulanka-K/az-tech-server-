@@ -13,6 +13,7 @@ const image = require('../controllers/upload.controller.js');
 const emailController = require('../controllers/email.controller');
 const requests = require('../controllers/request.controller.js');
 const chat = require('../controllers/chat.controller.js');
+const bcrypt = require('bcryptjs');
 
 
 
@@ -87,46 +88,6 @@ router.get('/unreadMessages/:receiveId/:sendId',chat.setNotification);
 router.post('/setMsgStatus/:receiveId/:sendId',chat.setIsViewed);
 
 
-//send reset password email to user
-// router.get('/forgotPassword/:email', (req, res, next) => {
-//     if(!req.params.email){
-//         res.status(401).json({
-//             state: false
-//         })
-//     } else {  
-//         const userEmail = req.params.email;
-//         console.log(userEmail);
-//         User 
-//             .find({ email: userEmail })
-//             .exec()
-//             .then(user => {
-//                 if(user){
-//                     console.log(user[0]._id);
-//                     const verificationCode = ctrlUser.generateRandomNumber()
-//                     console.log(verificationCode);
-//                     emailController.sendVerificationCode(userEmail, verificationCode);
-                    
-//                     res.status(200).json({
-//                         state: true, 
-//                         userId: user[0]._id,
-//                         code: verificationCode
-//                     })
-//                 } else {  
-//                     res.status(500).json({ 
-//                         state: false,
-//                         Message: "Not Registered User"
-//                     })
-//                 }
-//             }) 
-//             .catch(err => {
-//                 console.log(err);    
-//                 res.status(500).json({
-//                     state: false
-//                 })
-//             })
-//     }
-// });
-
 //after verifying the email this can save new password of the password forgotten person
 router.get('/forgotPassword/:email', (req, res, next) => {
     userEmail = req.params.email;
@@ -173,6 +134,75 @@ router.get('/warn/:email', (req, res, next) => {
 }
 
 );
+
+router.put('/editUserProfile/:userId', (req, res, next) => {
+    console.log("User profile edit route");
+    const userId = req.params.userId;
+    const currentPassword = req.body.password;
+    console.log(currentPassword);
+    // const thispassword;
+    User
+        .findById(userId)
+        .exec()
+        .then(user => {
+            console.log(user);
+            savedPassword = user.password;
+            console.log(savedPassword);
+            bcrypt.compare(currentPassword,savedPassword, (err, result) => {
+                if(result){
+                        // console.log("LLLLLLLL")
+                    bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
+                        if(err){
+                            return res.status(500).json({     
+                            });
+                        }else {
+                            
+                          //  console.log("KKKKKKKKK");
+                            User.update({_id:userId},{
+                                $set:{
+                                //    fname: req.body.fname ,
+                                //    lname:req.body.lname , 
+                                   password:hash 
+                                }
+                            })
+                            .then(result=>{
+                                res.status(200).json({
+                                    state:true,
+                                    user:result
+                                })
+
+                            })
+                            .catch(err=>{
+                                res.json(err);
+                            })
+                               
+                               
+                        }
+
+
+                    })
+  }
+
+
+                   
+                 else {
+                   // console.log("PPPPPPPPP");
+                    res.status(500).json({
+                        state: false,
+                        msg:"incorrect password"
+
+                       
+                    })
+                }
+            })
+        })
+           .catch(err=>{
+                 res.status(500).json({
+                    error:err,
+                    msg:"User not exit"
+                })
+          })
+})
 
 module.exports = router;
 
