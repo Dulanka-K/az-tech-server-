@@ -54,8 +54,9 @@ module.exports.groupByReceiver=function(req,res){
 //get unread messages
 module.exports.setNotification=function(req,res,next){
     const receiver=req.params.receiveId;
+    const sender=req.params.sendId;
 
-    Chat.find({sendId:receiver, isViewed:false})
+    Chat.find({sendId:receiver,receiveId:sender, isViewed:false})
         .then(result=>{
             if(result){
                 res.send(result);
@@ -70,8 +71,9 @@ module.exports.setNotification=function(req,res,next){
 //set a message as viewed
 module.exports.setIsViewed=function(req,res,next){
     const receiver=req.params.receiveId;
+    const sender=req.params.sendId;
 
-    Chat.updateMany({ sendId:receiver }, {
+    Chat.updateMany({ sendId:receiver,receiveId:sender }, {
         $set:{
             isViewed:true
             }
