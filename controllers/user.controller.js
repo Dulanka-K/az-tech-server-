@@ -134,3 +134,38 @@ module.exports.resetPassword=function(userId, newPassword){
         }
     });
 }
+
+module.exports.removeUser=function(req,res,next){
+        
+    const userId=req.params.uId;
+    
+    User.deleteOne({_id:userId})
+        .then(result=>{
+            if(result){
+                res.send({success:true});
+              
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+
+module.exports.viewAllUsers=function(req,res,next){
+
+    const role=req.params.role;
+
+    User.find({role:role})
+        .then(result=>{
+            
+            if(result){
+                res.status(200).json(result);
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+
+}

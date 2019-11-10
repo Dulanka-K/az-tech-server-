@@ -1,8 +1,8 @@
 const nodemailer = require('nodemailer');
 
-function sendVerificationCode(receiver, verificationCode) {
+function sendemail(receiver) {
     const sender = 'zaztech17@gmail.com';
-    const subject = 'Reset Password';
+    const subject = 'Warning!';
     
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -19,7 +19,7 @@ function sendVerificationCode(receiver, verificationCode) {
         from: sender,
         to: receiver,
         subject: subject,
-        html: '<h1>Welcome, </h1><p>Your verification code for reset password is </p>' + verificationCode
+        html: '<h1>Welcome, </h1><p>Your idea is warned by admin of Innovative Idea Publishing Platfoem </p>'
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -36,7 +36,7 @@ function sendVerificationCode(receiver, verificationCode) {
     });
 }
 
-function sendNewPassword(receiver, newpassword) {
+function sendNewPassword(receiver, randomPW) {
     const sender = 'zaztech17@gmail.com';
     const subject = 'Reset Password';
     
@@ -55,7 +55,7 @@ function sendNewPassword(receiver, newpassword) {
         from: sender,
         to: receiver,
         subject: subject,
-        html: '<h1>Welcome, </h1><p>Your new password is </p>' + newpassword
+        html: '<h1>Welcome, </h1><p>Your new password is </p>' + randomPW
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -73,6 +73,6 @@ function sendNewPassword(receiver, newpassword) {
 }
 
 module.exports = {
-    sendVerificationCode: sendVerificationCode,
+    sendemail:sendemail,
     sendNewPassword: sendNewPassword
 };

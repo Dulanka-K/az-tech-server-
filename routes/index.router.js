@@ -21,6 +21,9 @@ router.post('/register',ctrlUser.register);
 router.post('/authenticate',ctrlUser.authenticate);
 router.get('/userProfile/:uId',ctrlUser.userProfile);
 router.put('/editProfile/:uId',ctrlUser.editProfile);
+router.delete('/removeUser/:uId',ctrlUser.removeUser);
+router.get('/viewAllUsers/:role',ctrlUser.viewAllUsers);//view ideas under categories
+router.get('/resetPassword/:uId/:password',ctrlUser.resetPassword);//save new password in db
 
 router.post('/userImageUpload/:userId', image.userImageUpload.single('image'),(req, res, next)=>{
     const userId = req.params.userId;
@@ -85,47 +88,47 @@ router.post('/setMsgStatus/:receiveId/:sendId',chat.setIsViewed);
 
 
 //send reset password email to user
-router.get('/forgotPassword/:email', (req, res, next) => {
-    if(!req.params.email){
-        res.status(401).json({
-            state: false
-        })
-    } else {  
-        const userEmail = req.params.email;
-        console.log(userEmail);
-        User 
-            .find({ email: userEmail })
-            .exec()
-            .then(user => {
-                if(user){
-                    console.log(user[0]._id);
-                    const verificationCode = ctrlUser.generateRandomNumber()
-                    console.log(verificationCode);
-                    emailController.sendVerificationCode(userEmail, verificationCode);
+// router.get('/forgotPassword/:email', (req, res, next) => {
+//     if(!req.params.email){
+//         res.status(401).json({
+//             state: false
+//         })
+//     } else {  
+//         const userEmail = req.params.email;
+//         console.log(userEmail);
+//         User 
+//             .find({ email: userEmail })
+//             .exec()
+//             .then(user => {
+//                 if(user){
+//                     console.log(user[0]._id);
+//                     const verificationCode = ctrlUser.generateRandomNumber()
+//                     console.log(verificationCode);
+//                     emailController.sendVerificationCode(userEmail, verificationCode);
                     
-                    res.status(200).json({
-                        state: true, 
-                        userId: user[0]._id,
-                        code: verificationCode
-                    })
-                } else {  
-                    res.status(500).json({ 
-                        state: false,
-                        Message: "Not Registered User"
-                    })
-                }
-            }) 
-            .catch(err => {
-                console.log(err);    
-                res.status(500).json({
-                    state: false
-                })
-            })
-    }
-});
+//                     res.status(200).json({
+//                         state: true, 
+//                         userId: user[0]._id,
+//                         code: verificationCode
+//                     })
+//                 } else {  
+//                     res.status(500).json({ 
+//                         state: false,
+//                         Message: "Not Registered User"
+//                     })
+//                 }
+//             }) 
+//             .catch(err => {
+//                 console.log(err);    
+//                 res.status(500).json({
+//                     state: false
+//                 })
+//             })
+//     }
+// });
 
 //after verifying the email this can save new password of the password forgotten person
-router.get('/newPassword/:email', (req, res, next) => {
+router.get('/forgotPassword/:email', (req, res, next) => {
     userEmail = req.params.email;
     User
         .find({ email: userEmail })
@@ -150,7 +153,26 @@ router.get('/newPassword/:email', (req, res, next) => {
                 state: false
             })
         })
-})
+});
+
+//send warn email to user
+router.get('/warn/:email', (req, res, next) => {
+    console.log("back end")
+    if(!req.params.email){
+        res.status(401).json({
+            state: false
+        })
+    } else {  
+        const userEmail = req.params.email;
+        console.log(userEmail);
+        
+                    emailController.sendemail(userEmail);
+            
+    }
+
+}
+
+);
 
 module.exports = router;
 
