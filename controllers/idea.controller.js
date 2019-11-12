@@ -15,6 +15,7 @@ module.exports.addIdea=function(req,res,next){
     idea.type=req.body.type;
     idea.category=req.body.category;
     idea.username=req.body.username;
+    idea.value=req.body.value;
     idea.user.push(userId);
     
     idea.save(function(err,doc){
@@ -83,6 +84,21 @@ module.exports.categoryView=function(req,res,next){
     const category=req.params.category;
 
     Idea.find({category:category})
+        .then(result=>{
+            if(result){
+                res.json(result);
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
+
+//private ideas
+module.exports.privateIdeas=function(req,res,next){
+
+    Idea.find({type:"private"})
         .then(result=>{
             if(result){
                 res.json(result);

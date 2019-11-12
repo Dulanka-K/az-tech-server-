@@ -63,6 +63,7 @@ router.put('/editidea/:iId',idea.editIdea);//edit content
 router.put('/updateideaup/:iId',idea.updateIdeaup);//upvote
 router.put('/updateideadown/:iId',idea.updateIdeadown);//downvote
 router.get('/categoryview/:category',idea.categoryView);//view ideas under categories
+router.get('/privateideas',idea.privateIdeas);
 
 //comment routes
 router.post('/addComment/:iId/:uId',comment.addComment);
@@ -75,6 +76,7 @@ router.get('/viewRequest/:uId',requests.requestView);//view requests
 router.put('/status/:uId/:rId',requests.status);//accept or reject
 router.get('/investedideas/:uId',requests.investedIdeas);//view ideas invested
 router.get('/requeststatus/:uId/:iId',requests.requeststatus);
+router.get('/requestByIdea/:iId',requests.requestByIdea);
 
 //boost
 router.put('/boost/:iId',idea.boostIdea);

@@ -17,6 +17,9 @@ var ideaSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    value:{
+        type:Number
+    },
     date:{
         type:Date,
         default:Date.now

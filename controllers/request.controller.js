@@ -97,4 +97,19 @@ module.exports.requeststatus=function(req,res,next){
         });
 };
 
+//get request by iId
+module.exports.requestByIdea=function(req,res,next){
+    const ideaId=req.params.iId;
+
+    Request.find({idea:ideaId})
+        .then(result=>{
+            if(result){
+                res.json(result);
+            }
+        })
+        .catch(error => {
+            res.json({error: error});
+            console.log(error);
+        });
+};
 
